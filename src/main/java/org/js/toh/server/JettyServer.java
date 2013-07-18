@@ -8,11 +8,14 @@ public class JettyServer {
     private static final String PORT_KEY = "PORT";
 
     public static void main(String[] args) throws Exception {
-        checkArgs(args);
         Server server = new Server(getPort());
-        server.setHandler(createResourceHandler(args[0]));
+        server.setHandler(createResourceHandler(getBasePath(args, "src/main/webapp")));
         server.start();
         server.join();
+    }
+
+    private static String getBasePath(String[] args, String defaultPath) {
+        return args.length > 0 ? args[0] : defaultPath;
     }
 
     private static int getPort() {
@@ -20,12 +23,6 @@ public class JettyServer {
             return Integer.valueOf(System.getenv(PORT_KEY));
         }
         return 8080;
-    }
-
-    private static void checkArgs(String[] args) {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Please pass in base path");
-        }
     }
 
     private static ResourceHandler createResourceHandler(String resourceBase) {
