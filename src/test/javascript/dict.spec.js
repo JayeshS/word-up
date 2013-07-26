@@ -25,12 +25,12 @@ describe('Controllers', function () {
     describe('DictCtrl', function () {
         it('should contain the word hell when baseword is Hello', function () {
             ctrlScope.inputWord = 'hell';
-            ctrlScope.containsWord();
+            ctrlScope.checkWord();
             expect(ctrlScope.$emit).toHaveBeenCalledWith('animateSuccess');
         });
         it('should not contain the word HELP when the base word is HELLO', function () {
             ctrlScope.inputWord = 'HELP';
-            ctrlScope.containsWord();
+            ctrlScope.checkWord();
             expect(ctrlScope.$emit).toHaveBeenCalledWith('animateFailure');
         });
     });

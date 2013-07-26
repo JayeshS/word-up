@@ -1,5 +1,5 @@
 app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, DictionaryService) {
-    $scope.containsWord = function () {
+    $scope.checkWord = function () {
         var isValid = $scope.baseWord.isSupersetAnagram($scope.inputWord) &&
             DictionaryService.containsWord($scope.inputWord.toUpperCase());
 

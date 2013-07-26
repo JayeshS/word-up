@@ -11,7 +11,7 @@ app.directive('wordupInput', ['$rootScope', function ($rootScope) {
             $(element).keydown(function (event) {
                 if (event.which == 13) {
                     event.preventDefault();
-                    scope.containsWord();
+                    scope.checkWord();
                     event.target.value = '';
                 }
             });
