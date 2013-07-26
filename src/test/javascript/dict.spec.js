@@ -27,11 +27,15 @@ describe('Controllers', function () {
             ctrlScope.inputWord = 'hell';
             ctrlScope.checkWord();
             expect(ctrlScope.$emit).toHaveBeenCalledWith('animateSuccess');
+            expect(ctrlScope.correctGuesses).toEqual(['HELL']);
+            expect(ctrlScope.wrongGuesses).toEqual([]);
         });
         it('should not contain the word HELP when the base word is HELLO', function () {
             ctrlScope.inputWord = 'HELP';
             ctrlScope.checkWord();
             expect(ctrlScope.$emit).toHaveBeenCalledWith('animateFailure');
+            expect(ctrlScope.wrongGuesses).toEqual(['HELP']);
+            expect(ctrlScope.correctGuesses).toEqual([]);
         });
     });
 });

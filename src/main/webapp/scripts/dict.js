@@ -1,10 +1,26 @@
 app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, DictionaryService) {
     $scope.checkWord = function () {
-        var isValid = $scope.baseWord.isSupersetAnagram($scope.inputWord) &&
-            DictionaryService.containsWord($scope.inputWord.toUpperCase());
+        var inputWord = $scope.inputWord.toUpperCase();
+        var wordIsValid = $scope.baseWord.isSupersetAnagram(inputWord) &&
+            DictionaryService.containsWord(inputWord);
 
-        $scope.$emit('animate' + (isValid ? 'Success' : 'Failure'));
+        if (wordIsValid) {
+            $scope.correctGuesses.push(inputWord);
+            $scope.$emit('animateSuccess');
+        } else {
+            $scope.wrongGuesses.push(inputWord);
+            $scope.$emit('animateFailure');
+        }
     };
-    $scope.baseWord = DictionaryService.getRandomWord().shuffle();
-    $scope.baseArr = $scope.baseWord.arrayise();
+
+    $scope.startOver = function() {
+        $scope.baseWord = DictionaryService.getRandomWord().shuffle();
+        $scope.baseArr = $scope.baseWord.arrayise();
+        $scope.inputWord = '';
+        $scope.correctGuesses = [];
+        $scope.wrongGuesses = [];
+
+    };
+
+    $scope.startOver();
 }]);

@@ -19,10 +19,19 @@
 <h2 class="appHeading">Word-Up</h2>
 
 <div class="container">
-    <div id="baseWord" class="center spacedOut largeFont">{{baseWord}}</div>
+    <div id="baseWord" class="center spacedOut largeFont">
+        <span>{{baseWord}}</span> <span ng-click="startOver()"><img class="startOverButton" src="css/images/Updates-Available-updates-icon.png"></span>
+    </div>
     <div class="center">
         <input wordup-input ng-model="inputWord" class="largeFont">
     </div>
+</div>
+<div class="wordGrp">
+    <p><span ng-repeat="word in correctGuesses">{{word}}, </span></p>
+</div>
+
+<div class="wordGrp">
+    <span ng-repeat="word in wrongGuesses">{{word}}, </span>
 </div>
 <div class="footer">
     <span class="link"><a href="http://www.twitter.com/jayeshs">@JayeshS</a></span>
