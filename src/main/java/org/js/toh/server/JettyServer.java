@@ -1,6 +1,8 @@
 package org.js.toh.server;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.GzipHandler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 
 public class JettyServer {
@@ -25,9 +27,11 @@ public class JettyServer {
         return 8080;
     }
 
-    private static ResourceHandler createResourceHandler(String resourceBase) {
+    private static Handler createResourceHandler(String resourceBase) {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase(resourceBase);
-        return resourceHandler;
+        GzipHandler gzipHandler = new GzipHandler();
+        gzipHandler.setHandler(resourceHandler);
+        return gzipHandler;
     }
 }
