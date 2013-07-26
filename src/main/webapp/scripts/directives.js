@@ -8,13 +8,14 @@ app.directive('wordupInput', ['$rootScope', function ($rootScope) {
                 $(element).effect({effect: 'shake', duration: 250});
             });
 
-            $(element).keydown(function(event) {
+            $(element).keydown(function (event) {
                 if (event.which == 13) {
                     event.preventDefault();
                     scope.containsWord();
                     event.target.value = '';
                 }
             });
+            element[0].focus();
         }
     };
 }]);

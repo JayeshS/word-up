@@ -43,3 +43,9 @@ body {
     text-decoration: none;
     font-family: tahoma, sans-serif;
 }
+
+input {
+    background: transparent;
+    border: none;
+    text-align: center;
+}
