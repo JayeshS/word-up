@@ -9,9 +9,9 @@
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
-        	<groupId>org.eclipse.jetty</groupId>
-        	<artifactId>jetty-servlet</artifactId>
-        	<version>8.1.11.v20130520</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>8.1.11.v20130520</version>
         </dependency>
     </dependencies>
 

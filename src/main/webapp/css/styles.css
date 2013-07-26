@@ -1,0 +1,34 @@
+.center {
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*width: 70%;*/
+    text-align: center;
+    padding: 10px;
+    background-image: url("images/fzm-seamless.notebook.texture-20.png");
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px;
+    width: 70%;
+}
+
+body {
+    margin: 20px;
+    padding: 20px;
+}
+
+.spacedOut {
+    letter-spacing: 10pt;
+}
+
+.wide {
+    width: 600px;
+}
+
+.largeFont {
+    font-size: 300%;
+}
