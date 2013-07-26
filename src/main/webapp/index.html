@@ -1,9 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Word-Up">
 <head>
     <meta charset="UTF-8"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="scripts/jquery-ui-1.10.3.custom.js"></script>
+    <link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
+    <link href="css/styles.css" rel="stylesheet" media="screen">
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/localStorageModule.js"></script>
+    <script src="scripts/services.js"></script>
+    <script src="scripts/dict.js"></script>
+    <script src="scripts/directives.js"></script>
+
 </head>
-<body>
-    <h4>Word-Up</h4>
+<body ng-controller="DictCtrl">
+<h4>Word-Up</h4>
+
+<div class="container">
+    <div id="baseWord" class="center spacedOut largeFont">{{baseWord}}</div>
+    <div wordup-input class="center">
+        <input ng-model="inputWord" class="largeFont">
+    </div>
+</div>
+<button ng-click="containsWord()">Check</button>
+<button ng-click="getDict()">Get Dictionary</button>
+<div>Answer is: {{isGuessCorrect}}</div>
 </body>
 </html>
