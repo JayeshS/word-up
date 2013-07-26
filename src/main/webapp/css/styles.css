@@ -1,3 +1,11 @@
+.appHeading {
+    font-size: 200%;
+    font-style: oblique;
+    font-family: "Book Antiqua", cursive;
+    color: darkblue;
+    text-align: center;
+}
+
 .center {
     text-align: center;
     padding: 10px;
@@ -28,4 +36,13 @@ body {
 
 .largeFont {
     font-size: 300%;
+}
+
+.footer {
+    text-align: center;
+}
+.link a {
+    color: #aaaaaa;
+    text-decoration: none;
+    font-family: tahoma, sans-serif;
 }

@@ -1,18 +1,9 @@
 app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, DictionaryService) {
     $scope.containsWord = function () {
-        var inputArr = $scope.inputWord.toUpperCase().arrayise();
-        var baseWordArray = $scope.baseArr.slice(0);
+        var isValid = $scope.baseWord.isSupersetAnagram($scope.inputWord) &&
+            DictionaryService.containsWord($scope.inputWord.toUpperCase());
 
-        for (var i = 0; i < inputArr.length; i++) {
-            if (baseWordArray.indexOf(inputArr[i]) < 0) {
-                $scope.isGuessCorrect = false;
-                return;
-            } else {
-                baseWordArray[baseWordArray.indexOf(inputArr[i])] = '';
-            }
-        }
-        $scope.isGuessCorrect = DictionaryService.containsWord($scope.inputWord.toUpperCase());
-        $scope.$emit('animate' + ($scope.isGuessCorrect ? 'Success' : 'Failure'));
+        $scope.$emit('animate' + (isValid ? 'Success' : 'Failure'));
     };
 
     $scope.getDict = function () {
@@ -37,6 +28,21 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
         }
         return arr.join('');
     };
+
+    String.prototype.isSupersetAnagram = function(sub) {
+        var subArr = sub.toUpperCase().arrayise();
+        var thisArray = this.toUpperCase().arrayise();
+
+        for (var i = 0; i < subArr.length; i++) {
+            if (thisArray.indexOf(subArr[i]) < 0) {
+                return false;
+            } else {
+                thisArray[thisArray.indexOf(subArr[i])] = '';
+            }
+        }
+        return true;
+    };
+
 
     $scope.baseWord = DictionaryService.getRandomWord().shuffle();
     $scope.baseArr = $scope.baseWord.arrayise();

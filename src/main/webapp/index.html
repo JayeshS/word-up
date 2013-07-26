@@ -15,7 +15,8 @@
 
 </head>
 <body ng-controller="DictCtrl">
-<h4>Word-Up</h4>
+
+<h2 class="appHeading">Word-Up</h2>
 
 <div class="container">
     <div id="baseWord" class="center spacedOut largeFont">{{baseWord}}</div>
@@ -23,8 +24,8 @@
         <input ng-model="inputWord" class="largeFont">
     </div>
 </div>
-<button ng-click="containsWord()">Check</button>
-<button ng-click="getDict()">Get Dictionary</button>
-<div>Answer is: {{isGuessCorrect}}</div>
+<div class="footer">
+    <span class="link"><a href="http://www.twitter.com/jayeshs">@JayeshS</a></span>
+</div>
 </body>
 </html>

@@ -16,6 +16,7 @@ describe('Controllers', function () {
     });
     beforeEach(inject(function ($rootScope, $controller) {
         ctrlScope = $rootScope.$new();
+        spyOn(ctrlScope, '$emit');
         ctrl = $controller('DictCtrl', {
             $scope: ctrlScope,
             DictionaryService: dictService
@@ -25,12 +26,12 @@ describe('Controllers', function () {
         it('should contain the word hell when baseword is Hello', function () {
             ctrlScope.inputWord = 'hell';
             ctrlScope.containsWord();
-            expect(ctrlScope.isGuessCorrect).toEqual(true);
+            expect(ctrlScope.$emit).toHaveBeenCalledWith('animateSuccess');
         });
         it('should not contain the word HELP when the base word is HELLO', function () {
             ctrlScope.inputWord = 'HELP';
             ctrlScope.containsWord();
-            expect(ctrlScope.isGuessCorrect).toEqual(false);
+            expect(ctrlScope.$emit).toHaveBeenCalledWith('animateFailure');
         });
     });
 });
