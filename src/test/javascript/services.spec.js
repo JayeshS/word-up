@@ -45,8 +45,8 @@ describe('Services', function () {
 });
 
 describe('Services', function () {
-    var dictService, http, mockLocalStorageService, mockLocalStorageGet;
-    var dict = "{\"dict\": [\"aa\", \"zzz\"]}";
+    var dictService, http, mockLocalStorageService, mockLocalStorageGet, scope, q;
+    var dict = "aa,sp,zzz,space,spaced";
     var LOCAL_STORAGE_DICT_KEY = 'wordup.dict';
     beforeEach(module('Word-Up'));
     beforeEach(module('LocalStorageModule'));
@@ -55,8 +55,9 @@ describe('Services', function () {
         mockLocalStorageGet = spyOn(mockLocalStorageService, 'get');
         mockLocalStorageGet.andReturn(true);
     }));
-    beforeEach(inject(function ($httpBackend) {
+    beforeEach(inject(function ($httpBackend, $rootScope) {
         http = $httpBackend;
+        scope = $rootScope.$new();
     }));
     beforeEach(inject(function (DictionaryService) {
         dictService = DictionaryService;
@@ -73,6 +74,26 @@ describe('Services', function () {
             mockLocalStorageGet.andReturn(dict);
             var val = dictService.containsWord('not-in-dictionary');
             expect(val).toBe(false);
+        });
+
+        it('should return space if asked for subset anagrams of spaced', function () {
+            mockLocalStorageGet.andReturn(dict);
+            var resolvedCands;
+
+            dictService.findSubsetAnagramsFor('spaced').then(function(result) {
+                    resolvedCands = result.answers;
+            });
+            scope.$apply();
+
+            waitsFor(function() {
+                return resolvedCands;
+            }, 300);
+
+            runs(function() {
+                expect(resolvedCands).toEqual(['space', 'spaced']);
+                expect(mockLocalStorageService.get).toHaveBeenCalledWith(LOCAL_STORAGE_DICT_KEY);
+            }, 'calling dictionary serice for subsetanagrams for spaced');
+
         });
 
         it('should assume localStorage is loaded if the key wordup.dict.AAH exists', function () {
