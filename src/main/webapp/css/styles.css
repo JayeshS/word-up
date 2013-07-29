@@ -45,8 +45,10 @@ body {
 
 input {
     background: transparent;
-    border: none;
+    border-style: none;
+    border-bottom: dotted #333333;
     text-align: center;
+    width: 600px;
 }
 
 .wordGrp {
