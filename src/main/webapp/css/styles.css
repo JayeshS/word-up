@@ -49,12 +49,12 @@ input {
     border-style: none;
     border-bottom: dotted #333333;
     text-align: center;
-    width: 600px;
+    width: 50%;
 }
 
 .wordGrp {
     float: right;
-    width: 20%;
+    width: 10%;
     border: #333333 dashed;
 }
 

@@ -19,7 +19,7 @@
 
 <h2 class="appHeading">Word-Up</h2>
 <div class="wordGrp">
-    <p><span ng-repeat="word in correctGuesses">{{word}}, </span></p>
+    <p><span ng-bind="attempt.score()"></span></p>
 </div>
 
 <div class="container">
