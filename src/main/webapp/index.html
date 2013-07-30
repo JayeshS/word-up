@@ -17,17 +17,17 @@
 </head>
 <body ng-controller="DictCtrl">
 
-<h2 class="appHeading">Word-Up</h2>
-<div class="wordGrp">
-    <p><span ng-bind="attempt.score()"></span></p>
-</div>
 
 <div class="container">
+    <h2 class="appHeading">Word-Up</h2>
     <div id="baseWord" class="center spacedOut largeFont">
         <span>{{baseWord}}</span> <span ng-click="startOver()"><img class="startOverButton" src="css/images/Updates-Available-updates-icon.png"></span>
     </div>
     <div class="center">
         <input wordup-input ng-model="inputWord" class="largeFont">
+    </div>
+    <div class="center scoreboard">
+        {{attempt.score()}}
     </div>
 </div>
 

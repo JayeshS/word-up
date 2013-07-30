@@ -1,3 +1,8 @@
+@font-face {
+    font-family: scoreboardNums;
+    src: url('HoneyScript-SemiBold.ttf');
+}
+
 body {
     margin: 20px;
     padding: 20px;
@@ -52,10 +57,13 @@ input {
     width: 50%;
 }
 
-.wordGrp {
-    float: right;
-    width: 10%;
-    border: #333333 dashed;
+.scoreboard {
+    margin: 2% 40%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: 400%;
+    font-family: scoreboardNums, serif;
+    letter-spacing: 10pt;
 }
 
 .startOverButton {
