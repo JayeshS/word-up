@@ -1,3 +1,10 @@
+body {
+    margin: 20px;
+    padding: 20px;
+    background: url("images/fzm-seamless.notebook.texture-20.png");
+    background-size: 100%;
+}
+
 .appHeading {
     font-size: 200%;
     font-style: oblique;
@@ -17,12 +24,6 @@
     text-align: center;
     padding: 10px;
     width: 70%;
-}
-
-body {
-    margin: 20px;
-    padding: 20px;
-    background: url("images/fzm-seamless.notebook.texture-20.png") repeat-y center;
 }
 
 .spacedOut {
@@ -53,6 +54,8 @@ input {
 
 .wordGrp {
     float: right;
+    width: 20%;
+    border: #333333 dashed;
 }
 
 .startOverButton {
