@@ -66,6 +66,10 @@ input {
     letter-spacing: 10pt;
 }
 
+.incrementScore {
+    color: green;
+}
+
 .startOverButton {
     width: 20px;
     height: 20px;
