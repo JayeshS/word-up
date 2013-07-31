@@ -1,20 +1,20 @@
 app.service('DictionaryService', function ($http, $rootScope, localStorageService, $q) {
     var LOCAL_STORAGE_DICT_KEY = 'wordup.dict';
-    var dict = [];
+    var dictionary = [];
     var storage = localStorageService;
 
     this.getRandomWord = function () {
         var word = '';
         while (word.length < 6) {
-            var index = Math.floor(Math.random() * dict.length);
-            word = dict[index];
+            var index = Math.floor(Math.random() * dictionary.length);
+            word = dictionary[index];
         }
         return word;
     };
 
     function initDictionary() {
-        if (dict.length === 0)
-            dict = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
+        if (dictionary.length === 0)
+            dictionary = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
     }
 
     this.containsWord = function (letters) {
@@ -47,7 +47,7 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
             });
         }
 
-        findAllSubsetAnagrams({ "word": baseWord, "dict": dict });
+        findAllSubsetAnagrams({ "word": baseWord, "dict": dictionary });
 
         return deferred.promise;
     };
@@ -55,18 +55,18 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
     this.initialise = function () {
         var deferred = $q.defer();
         if (!(storage.get(LOCAL_STORAGE_DICT_KEY))) {
-            var that = this;
             $http.get('/dict.json').success(function (data, status, headers, config) {
-                var dict = data.dict;
-                console.log("Got dict.json, size: " + dict.length);
-                storage.add(LOCAL_STORAGE_DICT_KEY, dict);
-                initDictionary();
+                console.log("Got dict.json, size: " + data.dict.length);
+                storage.add(LOCAL_STORAGE_DICT_KEY, data.dict);
+                dictionary = data.dict;
                 deferred.resolve({});
             }).error(function (data, status, headers, config) {
                     $rootScope.error = data;
                 }
             );
         } else {
+            console.info("loading dictionary from storage...");
+            dictionary = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
             deferred.resolve({});
         }
         return deferred.promise;
