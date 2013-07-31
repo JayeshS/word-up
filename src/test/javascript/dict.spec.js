@@ -1,20 +1,27 @@
 describe('Controllers', function () {
-    var ctrlScope, ctrl, dictService;
+    var ctrlScope, ctrl;
     beforeEach(module('Word-Up'));
-    beforeEach(function () {
-        dictService = {
-            containsWord: function (letters) {
-                return ['HELP', 'HELL', 'HELLO'].indexOf(letters) >= 0;
-            },
-            getRandomWord: function() { return 'HELLO'; }
-        };
-    });
+
     beforeEach(inject(function ($rootScope, $controller) {
         ctrlScope = $rootScope.$new();
         spyOn(ctrlScope, '$emit');
         ctrl = $controller('DictCtrl', {
             $scope: ctrlScope,
-            DictionaryService: dictService
+            DictionaryService: {
+                containsWord: function (letters) {
+                    return ['HELP', 'HELL', 'HELLO'].indexOf(letters) >= 0;
+                },
+                getRandomWord: function () {
+                    return 'HELLO';
+                },
+                initialise: function () {
+                    return {
+                        then: function(deferredFunc) {
+                            deferredFunc();
+                        }
+                    }
+                }
+            }
         });
     }));
     describe('DictCtrl', function () {

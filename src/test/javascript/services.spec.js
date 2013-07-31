@@ -1,6 +1,6 @@
 describe('Services', function () {
     var LOCAL_STORAGE_DICT_KEY = 'wordup.dict';
-    var http, mockLocalStorageService, rootScope;
+    var http, mockLocalStorageService, rootScope, dictService;
 
     beforeEach(module('Word-Up'));
     beforeEach(module('LocalStorageModule'));
@@ -12,40 +12,42 @@ describe('Services', function () {
 
 
     beforeEach(inject(function ($rootScope) {
-        rootScope = $rootScope;
+        rootScope = $rootScope.$new();
     }));
 
-    beforeEach(inject(function ($httpBackend) {
+    beforeEach(inject(function ($httpBackend, DictionaryService) {
         http = $httpBackend;
+        dictService = DictionaryService;
     }));
 
     describe('DictionaryService initialisation', function () {
-        it('should load dict from http service if not already loaded', function () {
-            spyOn(mockLocalStorageService, 'get').andReturn(false);
+        it('should load dictionary from server', function () {
+            var initialiseResult;
             http.whenGET('/dict.json').respond(201, "{\"dict\": [\"aa\", \"zzz\"]}");
-            inject(function (DictionaryService) {
-                http.flush();
-                expect(mockLocalStorageService.add).toHaveBeenCalledWith(LOCAL_STORAGE_DICT_KEY, ["aa", "zzz"]);
+            spyOn(mockLocalStorageService, 'get').andReturn(false);
+
+            dictService.initialise().then(function(result) {
+                initialiseResult = result;
             });
+            http.flush();
+
+            waitsFor(function() {
+                return initialiseResult;
+            }, 300);
+
+            runs(function() {
+                expect(mockLocalStorageService.get).toHaveBeenCalledWith(LOCAL_STORAGE_DICT_KEY);
+            }, 'checks localStorage was queried');
         });
         it('should not load dict from http service if already loaded', function () {
             spyOn(mockLocalStorageService, 'get').andReturn(true);
-            inject(function (DictionaryService) {
-            });
-        });
-        it('should report error from http service in rootScope', function () {
-            spyOn(mockLocalStorageService, 'get').andReturn(false);
-            http.whenGET('/dict.json').respond(404, "Not Found");
-            inject(function (DictionaryService) {
-            });
-            http.flush();
-            expect(rootScope.error).toEqual('Not Found');
+
         });
     });
 });
 
 describe('Services', function () {
-    var dictService, http, mockLocalStorageService, mockLocalStorageGet, scope, q;
+    var dictService, http, mockLocalStorageService, mockLocalStorageGet, scope;
     var dict = "aa,sp,zzz,space,spaced";
     var LOCAL_STORAGE_DICT_KEY = 'wordup.dict';
     beforeEach(module('Word-Up'));
@@ -94,13 +96,6 @@ describe('Services', function () {
                 expect(mockLocalStorageService.get).toHaveBeenCalledWith(LOCAL_STORAGE_DICT_KEY);
             }, 'calling dictionary serice for subsetanagrams for spaced');
 
-        });
-
-        it('should assume localStorage is loaded if the key wordup.dict.AAH exists', function () {
-            mockLocalStorageGet.andReturn(null);
-            var isLoaded = dictService.isLocalStorageLoaded();
-            expect(isLoaded).toBe(false);
-            expect(mockLocalStorageService.get).toHaveBeenCalledWith(LOCAL_STORAGE_DICT_KEY);
         });
     });
 });
