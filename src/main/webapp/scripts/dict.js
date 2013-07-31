@@ -60,11 +60,13 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
     }
 
     $scope.startOver = function () {
-        $scope.baseWord = DictionaryService.getRandomWord().shuffle();
-        $scope.baseArr = $scope.baseWord.arrayise();
-        $scope.inputWord = '';
-        $scope.attempt = createNewAttempt()
-
+        DictionaryService.initialise().then(function () {
+            console.info("initialised dictionary. now initialising scope.");
+            $scope.baseWord = DictionaryService.getRandomWord().shuffle();
+            $scope.baseArr = $scope.baseWord.arrayise();
+            $scope.inputWord = '';
+            $scope.attempt = createNewAttempt()
+        });
     };
 
     $scope.startOver();
