@@ -61,6 +61,7 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
 
     $scope.startOver = function () {
         DictionaryService.initialise().then(function () {
+            console.info("Initialised application.  Creating attempt.");
             $scope.baseWord = DictionaryService.getRandomWord().shuffle();
             $scope.baseArr = $scope.baseWord.arrayise();
             $scope.inputWord = '';

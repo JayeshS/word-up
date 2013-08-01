@@ -48,21 +48,21 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
         var that = this;
         var deferred = $q.defer();
         if (!(storage.get(LOCAL_STORAGE_DICT_KEY))) {
-            $http.get('/dict.json').success(function (data) {
-                console.log("Got dict.json, size: " + data.dict.length);
-                storage.add(LOCAL_STORAGE_DICT_KEY, data.dict);
-                that.dictionary = data.dict;
-                deferred.resolve({});
-            }).error(function (data) {
+            $http.get('/dict.json')
+                .success(function (data) {
+                    console.log("Got dict.json, size: " + data.dict.length);
+                    storage.add(LOCAL_STORAGE_DICT_KEY, data.dict);
+                    that.dictionary = data.dict;
+                    deferred.resolve({});
+                }).error(function (data) {
                     $rootScope.error = data;
-                }
-            );
+                });
+            return deferred.promise;
         } else {
             console.info("loading dictionary from storage...");
             this.dictionary = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
-            deferred.resolve({});
+            return $q.when({});
         }
-        return deferred.promise;
     };
 
 });

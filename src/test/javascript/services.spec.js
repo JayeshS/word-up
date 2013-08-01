@@ -1,5 +1,4 @@
 describe('DictionaryService initialisation', function () {
-    var LOCAL_STORAGE_DICT_KEY = 'wordup.dict';
     var http, mockLocalStorageService, rootScope, dictService;
 
     beforeEach(module('Word-Up'));
@@ -34,7 +33,23 @@ describe('DictionaryService initialisation', function () {
     });
 
     it('should not load dict from http service if already loaded', function () {
-        spyOn(mockLocalStorageService, 'get').andReturn(true);
+        spyOn(mockLocalStorageService, 'get').andReturn("aaa,zzz");
+
+        var promiseFulfilled = false;
+
+        rootScope.$apply(function() {
+            dictService.initialise().then(function () {
+                promiseFulfilled = true;
+            });
+        });
+
+        waitsFor(function() {
+            return promiseFulfilled;
+        }, 300);
+
+        runs(function () {
+            expect(dictService.dictionary).toEqual(["aaa", "zzz"]);
+        }, 'checks dictionary was set');
 
     });
 });
