@@ -1,40 +1,32 @@
 app.service('DictionaryService', function ($http, $rootScope, localStorageService, $q) {
     var LOCAL_STORAGE_DICT_KEY = 'wordup.dict';
-    var dictionary = [];
+    this.dictionary = [];
     var storage = localStorageService;
 
     this.getRandomWord = function () {
         var word = '';
         while (word.length < 6) {
-            var index = Math.floor(Math.random() * dictionary.length);
-            word = dictionary[index];
+            var index = Math.floor(Math.random() * this.dictionary.length);
+            word = this.dictionary[index];
         }
         return word;
     };
 
-    function initDictionary() {
-        if (dictionary.length === 0)
-            dictionary = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
-    }
-
     this.containsWord = function (letters) {
-        initDictionary();
-        console.info("Checking storage for: " + letters);
-        return storage.get(LOCAL_STORAGE_DICT_KEY).indexOf(letters) > -1;
+        return this.dictionary.indexOf(letters) > -1;
     };
 
     this.findSubsetAnagramsFor = function (baseWord) {
-        initDictionary();
         var deferred = $q.defer();
         var startTime = new Date();
 
-        function findAllSubsetAnagrams(event) {
-            var word = event.word;
-            var dictionary = event.dict;
+        function findAllSubsetAnagrams(input) {
+            var word = input.word;
+            var dict = input.dict;
 
             var wordsForCurrCand = [];
-            for (var i = 0, n = dictionary.length; i < n; i++) {
-                var currWord = dictionary[i];
+            for (var i = 0, n = dict.length; i < n; i++) {
+                var currWord = dict[i];
                 if ((currWord.length > 2) && word.isSupersetAnagram(currWord)) {
                     wordsForCurrCand.push(currWord);
                 }
@@ -47,26 +39,27 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
             });
         }
 
-        findAllSubsetAnagrams({ "word": baseWord, "dict": dictionary });
+        findAllSubsetAnagrams({ "word": baseWord, "dict": this.dictionary });
 
         return deferred.promise;
     };
 
     this.initialise = function () {
+        var that = this;
         var deferred = $q.defer();
         if (!(storage.get(LOCAL_STORAGE_DICT_KEY))) {
-            $http.get('/dict.json').success(function (data, status, headers, config) {
+            $http.get('/dict.json').success(function (data) {
                 console.log("Got dict.json, size: " + data.dict.length);
                 storage.add(LOCAL_STORAGE_DICT_KEY, data.dict);
-                dictionary = data.dict;
+                that.dictionary = data.dict;
                 deferred.resolve({});
-            }).error(function (data, status, headers, config) {
+            }).error(function (data) {
                     $rootScope.error = data;
                 }
             );
         } else {
             console.info("loading dictionary from storage...");
-            dictionary = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
+            this.dictionary = storage.get(LOCAL_STORAGE_DICT_KEY).split(',');
             deferred.resolve({});
         }
         return deferred.promise;
