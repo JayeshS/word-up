@@ -24,7 +24,7 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
     };
 
     function createNewAttempt() {
-        var correctGuesses = [], wrongGuesses = [], score = 0;
+        var correctGuesses = [], wrongGuesses = [], unsolvedWords = [], score = 0;
 
         function containsGuess(word, guesses) {
             return guesses.indexOf(word.toUpperCase()) >= 0;
@@ -55,11 +55,20 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
             },
             score: function () {
                 return score;
+            },
+            solve: function() {
+                var solution = DictionaryService.findSubsetAnagramsFor($scope.baseWord);
+                for (var i = 0; i < solution.length; i++) {
+                    if (correctGuesses.indexOf(solution[i]) < 0) {
+                        unsolvedWords.push(solution[i]);
+                    }
+                }
+                return unsolvedWords;
             }
         };
     }
 
-    $scope.startOver = function () {
+    $scope.start = function () {
         DictionaryService.initialise().then(function () {
             console.info("Initialised application.  Creating attempt.");
             $scope.baseWord = DictionaryService.getRandomWord().shuffle();
@@ -69,5 +78,5 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
         });
     };
 
-    $scope.startOver();
+    $scope.start();
 }]);
