@@ -22,10 +22,10 @@ app.directive('wordupInput', ['$rootScope', function ($rootScope) {
     };
 }]);
 
-app.directive('wordupScoreboard', ['$rootScope', function ($rootScope) {
+app.directive('wordupScoreboard', function () {
     return {
         link: function (scope, element) {
-            $rootScope.$on('correctGuess', function (event, scoreBoard) {
+            scope.$on('correctGuess', function (event, scoreBoard) {
                 function callback() {
                     setTimeout(function () {
                         element.text(scoreBoard.score);
@@ -38,9 +38,24 @@ app.directive('wordupScoreboard', ['$rootScope', function ($rootScope) {
                     .addClass('incrementScore')
                     .fadeIn(650, callback);
             });
-            $rootScope.$on('reset', function() {
+            scope.$on('reset', function () {
                 element.text(0);
             })
         }
     };
-}]);
+});
+
+app.directive('wordupSolution', function () {
+    return {
+        link: function (scope, element) {
+            element.hide();
+            scope.$on('showSolution', function (event, data) {
+                console.info('showing soln, unsolved words: ' + data.unsolvedWords.length);
+                element.text(data.unsolvedWords.join(', ').toLowerCase()).dialog({
+                    height: $(window).height() - 180,
+                    width: $(window).width() - 180
+                });
+            });
+        }
+    }
+});

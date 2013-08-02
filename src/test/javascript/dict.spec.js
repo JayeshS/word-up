@@ -16,7 +16,13 @@ describe('Dictionary Controller', function () {
                 }
             }
         },
-        findSubsetAnagramsFor: function() {}
+        findSubsetAnagramsFor: function () {
+            return {
+                then: function (deferredFunc) {
+                    deferredFunc({answers: ['HELL', 'HELLO']});
+                }
+            }
+        }
     };
 
     beforeEach(inject(function ($rootScope, $controller) {
@@ -60,25 +66,20 @@ describe('Dictionary Controller', function () {
     });
     it('should not count duplicate guesses', function () {
         ctrlScope.inputWord = 'hell';
-        ctrlScope.checkWord();
-        expect(ctrlScope.attempt.containsCorrectGuess('HELL')).toEqual(true);
-        ctrlScope.checkWord();
-        expect(ctrlScope.attempt.containsCorrectGuess('HELL')).toEqual(true);
-    });
-    it('should delegate to dictionary service to find solution', function () {
-        spyOn(dictionaryService, 'findSubsetAnagramsFor').andReturn(['HELL', 'HELLO']);
-        var solution = ctrlScope.attempt.solve();
-        expect(solution).toEqual(['HELL', 'HELLO']);
-        expect(dictionaryService.findSubsetAnagramsFor).toHaveBeenCalledWith(jasmine.any(String));
+
+        ctrlScope.checkWord(); // 8 Points
+        ctrlScope.checkWord(); // No effect
+
+        expect(ctrlScope.$emit).toHaveBeenCalledWith('correctGuess', {score: 8, points: 8});
     });
     it('should exclude correct guesses from unsolved words in solution', function () {
-        spyOn(dictionaryService, 'findSubsetAnagramsFor').andReturn(['HELL', 'HELLO']);
-
         ctrlScope.inputWord = 'hell';
         ctrlScope.checkWord();
 
-        var solution = ctrlScope.attempt.solve();
-
-        expect(solution).toEqual(['HELLO']);
+        ctrlScope.attempt.solve();
+        expect(ctrlScope.$emit).toHaveBeenCalledWith('showSolution', {
+            solution: ['HELL', 'HELLO'],
+            unsolvedWords: ['HELLO']
+        });
     });
 });

@@ -24,7 +24,7 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
     };
 
     function createNewAttempt(baseWord) {
-        var correctGuesses = [], wrongGuesses = [], unsolvedWords = [], internalScore = 0;
+        var correctGuesses = [], wrongGuesses = [], solution = [], unsolvedWords = [], internalScore = 0;
 
         function containsGuess(word, guesses) {
             return guesses.indexOf(word.toUpperCase()) >= 0;
@@ -35,6 +35,15 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
                 guesses.push(word.toUpperCase());
             }
         }
+
+        function findSolution() {
+            DictionaryService.findSubsetAnagramsFor(baseWord).then(function (data) {
+                console.info('result from svc: ' + data.answers.length);
+                solution = data.answers;
+            });
+        }
+
+        findSolution();
 
         return {
             pushCorrectGuess: function (word) {
@@ -53,24 +62,21 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
             containsWrongGuess: function (word) {
                 return containsGuess(word, wrongGuesses);
             },
-            score: function() {
+            score: function () {
                 return internalScore;
             },
+            unsolvedWords: function () {
+                return unsolvedWords
+            },
             solve: function () {
-                var solution = DictionaryService.findSubsetAnagramsFor(baseWord);
-                for (var i = 0; i < solution.length; i++) {
-                    if (correctGuesses.indexOf(solution[i]) < 0) {
-                        unsolvedWords.push(solution[i]);
+                if (unsolvedWords.length === 0) {
+                    for (var i = 0; i < solution.length; i++) {
+                        if (correctGuesses.indexOf(solution[i]) < 0) {
+                            unsolvedWords.push(solution[i]);
+                        }
                     }
                 }
-                return unsolvedWords;
-            },
-            reset: function() {
-                correctGuesses = [];
-                wrongGuesses = [];
-                unsolvedWords = [];
-                internalScore = 0;
-                $scope.$emit('reset');
+                $scope.$emit('showSolution', {solution: solution, unsolvedWords: unsolvedWords});
             }
         };
     }
@@ -82,14 +88,11 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
         });
     };
 
-    $scope.reset = function() {
+    $scope.reset = function () {
         $scope.baseWord = DictionaryService.getRandomWord().shuffle();
         $scope.inputWord = '';
-        if ($scope.attempt) {
-            $scope.attempt.reset();
-        } else {
-            $scope.attempt = createNewAttempt($scope.baseWord);
-        }
+        $scope.attempt = createNewAttempt($scope.baseWord);
+        $scope.$emit('reset');
     };
 
     $scope.start();

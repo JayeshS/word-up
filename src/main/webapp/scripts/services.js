@@ -5,7 +5,7 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
 
     this.getRandomWord = function () {
         var word = '';
-        while (word.length < 6) {
+        while (word.length < 6 || word.length > 10) {
             var index = Math.floor(Math.random() * this.dictionary.length);
             word = this.dictionary[index];
         }
@@ -31,11 +31,9 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
                     wordsForCurrCand.push(currWord);
                 }
             }
-            $rootScope.$apply(function () {
-                deferred.resolve({
-                    answers: wordsForCurrCand,
-                    timeTaken: (new Date() - startTime) / 1000
-                });
+            deferred.resolve({
+                answers: wordsForCurrCand,
+                timeTaken: (new Date() - startTime) / 1000
             });
         }
 
