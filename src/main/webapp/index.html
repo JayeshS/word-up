@@ -22,14 +22,12 @@
     <h2 class="appHeading">Word-Up</h2>
     <p class="help">How many words can you make using the following letters?</p>
     <div id="baseWord" class="center spacedOut largeFont">
-        <span>{{baseWord}}</span> <span ng-click="start()"><img class="startOverButton" src="css/images/Updates-Available-updates-icon.png"></span>
+        <span>{{baseWord}}</span> <span ng-click="reset()"><img class="startOverButton" src="css/images/Updates-Available-updates-icon.png"></span>
     </div>
     <div class="center">
         <input wordup-input ng-model="inputWord" class="largeFont">
     </div>
-    <div class="center scoreboard" wordup-scoreboard>
-        {{attempt.score()}}
-    </div>
+    <div class="center scoreboard" wordup-scoreboard></div>
 </div>
 
 <div class="footer">

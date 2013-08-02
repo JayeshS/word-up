@@ -38,6 +38,9 @@ app.directive('wordupScoreboard', ['$rootScope', function ($rootScope) {
                     .addClass('incrementScore')
                     .fadeIn(650, callback);
             });
+            $rootScope.$on('reset', function() {
+                element.text(0);
+            })
         }
     };
 }]);
