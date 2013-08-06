@@ -1,10 +1,10 @@
-app.directive('wordupInput', ['$rootScope', function ($rootScope) {
+app.directive('wordupInput', ['$rootScope', function () {
     return {
         link: function (scope, element) {
-            $rootScope.$on('correctGuess', function () {
+            scope.$on('correctGuess', function () {
                 $(element).effect('highlight');
             });
-            $rootScope.$on('wrongGuess', function () {
+            scope.$on('wrongGuess', function () {
                 $(element).effect({effect: 'shake', duration: 250});
             });
 
@@ -17,7 +17,13 @@ app.directive('wordupInput', ['$rootScope', function ($rootScope) {
                 }
 
             });
-            element[0].focus();
+            var focus = function() {
+                element[0].focus();
+            };
+
+            ['correctGuess', 'wrongGuess', 'shuffle', 'reset'].each(function(event) {
+                scope.$on(event, focus);
+            });
         }
     };
 }]);

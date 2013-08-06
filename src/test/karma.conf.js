@@ -8,7 +8,7 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'main/webapp/scripts/angular.min.js',
-            'main/webapp/scripts/stringCustomisations.js',
+            'main/webapp/scripts/jsCustomisations.js',
             'main/webapp/scripts/app.js',
             'main/webapp/scripts/localStorageModule.js',
             'main/webapp/scripts/services.js',

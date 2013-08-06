@@ -30,3 +30,9 @@ String.prototype.isSupersetAnagram = function(sub) {
     }
     return true;
 };
+
+Array.prototype.each = function(clos) {
+    for (var i = 0; i < this.length; i++) {
+        clos(this[i]);
+    }
+};
