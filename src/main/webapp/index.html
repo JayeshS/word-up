@@ -21,9 +21,16 @@
 
 <div class="container">
     <h2 class="appHeading">Word-Up</h2>
+
     <p class="help">How many words can you make using the following letters?</p>
+
     <div id="baseWord" class="center spacedOut largeFont">
-        <span>{{baseWord}}</span> <span ng-click="reset()"><img class="startOverButton" src="css/images/Updates-Available-updates-icon.png"></span>
+        <div wordup-baseword>{{baseWord}}</div>
+        <div>
+            <img ng-click="shuffle()" class="imgButton" src="img/shuffle.png">
+            <img ng-click="reset()" class="imgButton" src="img/restart.png">
+        </div>
+
     </div>
     <div class="center">
         <input wordup-input ng-model="inputWord" class="largeFont">

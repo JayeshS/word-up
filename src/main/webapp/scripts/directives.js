@@ -39,7 +39,7 @@ app.directive('wordupScoreboard', function () {
                     .fadeIn(650, callback);
             });
             scope.$on('reset', function () {
-                element.text(0);
+                element.text(0).hide().fadeIn();
             })
         }
     };
@@ -55,6 +55,19 @@ app.directive('wordupSolution', function () {
                     height: $(window).height() - 180,
                     width: $(window).width() - 180
                 });
+            });
+        }
+    }
+});
+
+app.directive('wordupBaseword', function () {
+    return {
+        link: function (scope, element) {
+            scope.$on('reset', function () {
+                element.toggle("slide").toggle("slide");
+            });
+            scope.$on('shuffle', function() {
+                $(element).effect({effect: 'shake', duration: 300});
             });
         }
     }

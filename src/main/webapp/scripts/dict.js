@@ -95,5 +95,10 @@ app.controller('DictCtrl', ['$scope', 'DictionaryService', function ($scope, Dic
         $scope.$emit('reset');
     };
 
+    $scope.shuffle = function() {
+        $scope.baseWord = $scope.baseWord.shuffle();
+        $scope.$emit('shuffle');
+    };
+
     $scope.start();
 }]);
