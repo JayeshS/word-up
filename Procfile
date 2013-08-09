@@ -1,1 +1,1 @@
-web: java -cp target/classes:"target/dependency/*" org.js.toh.server.JettyServer
+web: ./build/install/word-up/bin/word-up

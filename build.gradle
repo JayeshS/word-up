@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin:'application'
+apply plugin: 'idea'
+
+mainClassName = 'org.js.toh.server.JettyServer'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.eclipse.jetty:jetty-servlet:8.1.11.v20130520'
+}
+
+task stage(dependsOn: ['clean', 'installApp'])
