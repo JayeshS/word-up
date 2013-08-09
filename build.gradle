@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin:'application'
 apply plugin: 'idea'
 
+applicationName = 'word-up'
 mainClassName = 'org.js.toh.server.JettyServer'
 
 repositories {
