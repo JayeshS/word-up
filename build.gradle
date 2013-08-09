@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compile 'org.eclipse.jetty:jetty-servlet:8.1.11.v20130520'
+    runtime 'org.mortbay.jetty:servlet-api:3.0.20100224'
 }
 
 task stage(dependsOn: ['clean', 'installApp'])
