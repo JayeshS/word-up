@@ -10,8 +10,13 @@ repositories {
 }
 
 dependencies {
-    compile 'org.eclipse.jetty:jetty-servlet:8.1.11.v20130520'
-    runtime 'org.mortbay.jetty:servlet-api:3.0.20100224'
+    compile 'org.eclipse.jetty:jetty-servlet:8.1.11.v20130520',
+            'org.springframework:spring-webmvc:3.2.3.RELEASE'
+
+    runtime 'org.mortbay.jetty:servlet-api:3.0.20100224',
+            'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+
+    testCompile 'junit:junit:4.11'
 }
 
 task stage(dependsOn: ['clean', 'installApp'])
