@@ -10,10 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 class SpringAutoConfig extends WebMvcConfigurerAdapter {
 
-    @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-        jsonConverter.setPrettyPrint(true);
-        converters.add(jsonConverter);
+        converters << new MappingJackson2HttpMessageConverter(prettyPrint: true)
     }
 }
