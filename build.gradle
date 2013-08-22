@@ -13,10 +13,10 @@ dependencies {
     groovy  'org.codehaus.groovy:groovy-all:2.1.6'
     compile 'org.eclipse.jetty:jetty-servlet:8.1.11.v20130520',
             'org.springframework:spring-webmvc:3.2.3.RELEASE',
-            'org.mongodb:mongo-java-driver:2.11.2'
+            'org.mongodb:mongo-java-driver:2.11.2',
+            'org.mortbay.jetty:servlet-api:3.0.20100224'
 
-    runtime 'org.mortbay.jetty:servlet-api:3.0.20100224',
-            'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+    runtime 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
 
     testCompile 'junit:junit:4.11'
 }
