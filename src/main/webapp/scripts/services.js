@@ -46,7 +46,7 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
         var that = this;
         var deferred = $q.defer();
         if (!(storage.get(LOCAL_STORAGE_DICT_KEY))) {
-            $http.get('/dict.json')
+            $http.get('dict.json')
                 .success(function (data) {
                     console.log("Got dict.json, size: " + data.dict.length);
                     storage.add(LOCAL_STORAGE_DICT_KEY, data.dict);

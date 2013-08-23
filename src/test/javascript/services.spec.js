@@ -16,7 +16,7 @@ describe('DictionaryService initialisation', function () {
         spyOn(mockLocalStorageService, 'get').andReturn(false);
 
         var initialiseResult;
-        http.whenGET('/dict.json').respond(201, JSON.stringify({"dict": ["aaa", "zzz"]}));
+        http.whenGET('dict.json').respond(201, JSON.stringify({"dict": ["aaa", "zzz"]}));
 
         dictService.initialise().then(function (result) {
             initialiseResult = result;
