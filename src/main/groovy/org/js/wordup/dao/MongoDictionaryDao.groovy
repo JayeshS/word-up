@@ -20,7 +20,7 @@ class MongoDictionaryDao {
 
         def cursor = words.find(new BasicDBObject("name", word))
         if (!cursor.hasNext()) {
-            return new Word(word: word, definitions: [], error: 'No such word found');
+            return new Word(word: word, error: 'No such word found');
         }
 
         DBObject dbWord = cursor.next();

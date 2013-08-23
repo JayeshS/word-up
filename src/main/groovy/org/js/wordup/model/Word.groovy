@@ -3,7 +3,7 @@ package org.js.wordup.model;
 public class Word {
 
     String word
-    List<Definition> definitions
+    def definitions = []
     String error
 
     static class Definition {
