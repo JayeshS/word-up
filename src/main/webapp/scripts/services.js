@@ -63,4 +63,16 @@ app.service('DictionaryService', function ($http, $rootScope, localStorageServic
         }
     };
 
+    this.define = function(word) {
+        var defer = $q.defer();
+        $http.get('/wordup-service/define/' + word + '.json')
+                    .success(function (data) {
+                        defer.resolve(data)
+                    })
+                    .error(function(e) {
+                        defer.resolve({error: 'Could not load definition.'})
+                    });
+        return defer.promise;
+    }
+
 });

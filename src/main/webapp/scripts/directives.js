@@ -28,6 +28,20 @@ app.directive('wordupInput', ['$rootScope', function () {
     };
 }]);
 
+/*app.directive('definition', function() {
+    return {
+        link: function(scope, elem) {
+            scope.$on('correctGuess', function (event, data) {
+                elem.text(data.word)
+            });
+
+            ['wrongGuess', 'shuffle', 'reset'].each(function(event) {
+                scope.$on(event, function () {elem.text('')});
+            });
+        }
+    }
+});*/
+
 app.directive('wordupScoreboard', function () {
     return {
         link: function (scope, element) {

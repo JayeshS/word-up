@@ -16,7 +16,7 @@ describe('DictionaryService initialisation', function () {
         spyOn(mockLocalStorageService, 'get').andReturn(false);
 
         var initialiseResult;
-        http.whenGET('dict.json').respond(201, JSON.stringify({"dict": ["aaa", "zzz"]}));
+        http.expectGET('dict.json').respond({"dict": ["aaa", "zzz"]});
 
         dictService.initialise().then(function (result) {
             initialiseResult = result;
@@ -37,13 +37,13 @@ describe('DictionaryService initialisation', function () {
 
         var promiseFulfilled = false;
 
-        rootScope.$apply(function() {
+        rootScope.$apply(function () {
             dictService.initialise().then(function () {
                 promiseFulfilled = true;
             });
         });
 
-        waitsFor(function() {
+        waitsFor(function () {
             return promiseFulfilled;
         }, 300);
 
@@ -53,6 +53,75 @@ describe('DictionaryService initialisation', function () {
 
     });
 });
+
+describe('Dictionary Service Definitions', function () {
+    var http, dictService;
+    beforeEach(module('Word-Up'));
+    beforeEach(inject(function ($httpBackend, DictionaryService) {
+        http = $httpBackend;
+        dictService = DictionaryService;
+    }));
+
+    it('should make http request to retrieve a definition', function () {
+        var httpResult;
+        http.expectGET('/wordup-service/define/java.json').respond({
+            "word": "java",
+            "definitions": [
+                {
+                    "pos": "Noun",
+                    "explanation": "a blend of coffee imported from the island of Java."
+                },
+                {
+                    "pos": "Noun",
+                    "explanation": "[alternative spelling of|Java]"
+                },
+                {
+                    "pos": "Noun",
+                    "explanation": "[US|colloquial] Coffee in general."
+                }
+            ],
+            "error": null
+        });
+        dictService.define('java')
+            .then(function (result) {
+                httpResult = result;
+            });
+        http.flush();
+
+        waitsFor(function () {
+            return httpResult;
+        }, 200);
+
+        runs(function () {
+            expect(httpResult.definitions[0].explanation).toEqual('a blend of coffee imported from the island of Java.');
+            expect(httpResult.definitions[1].explanation).toEqual('[alternative spelling of|Java]');
+            expect(httpResult.definitions[2].explanation).toEqual('[US|colloquial] Coffee in general.');
+            expect(httpResult.error).toBeNull();
+        })
+
+    });
+
+    it('should handle errors', function () {
+        var httpResult;
+        http.expectGET('/wordup-service/define/java.json').respond(500, 'Error handling the request');
+
+        dictService.define('java')
+            .then(function (result) {
+                httpResult = result;
+            });
+        http.flush();
+
+        waitsFor(function () {
+            return httpResult;
+        }, 200);
+
+        runs(function() {
+            expect(httpResult.error).toBe('Could not load definition.');
+        })
+    })
+
+});
+
 
 describe('DictionaryService', function () {
     var dictService, scope;
